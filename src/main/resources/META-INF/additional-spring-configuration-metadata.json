@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "system.secret",
+      "type": "java.lang.String",
+      "description": "Password encoding secret."
+    }
+  ]
+}

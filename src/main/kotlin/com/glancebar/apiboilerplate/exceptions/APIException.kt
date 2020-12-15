@@ -6,5 +6,5 @@ package com.glancebar.apiboilerplate.exceptions
  * @author Ethan Gary
  * @date 2020/12/15
  */
-class APIException(val msg: String, val code: Int) : RuntimeException() {
+open class APIException(val errMsg: String, val errCode: Int) : RuntimeException() {
 }

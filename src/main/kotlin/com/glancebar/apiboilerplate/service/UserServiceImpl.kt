@@ -24,6 +24,6 @@ class UserServiceImpl(val userRepository: UserRepository, val passwordEncoder: P
             birthday = LocalDate.ofEpochDay(user.birthday)
         )
         val result = userRepository.save(userEntity)
-        return UserDTO(result.username)
+        return UserDTO(result.id.toString(), result.username, result.gender, 0, 0, result.isDelete, result.isActive )
     }
 }

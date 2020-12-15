@@ -8,6 +8,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
 
+/**
+ * Basic web security config
+ * @author Ethan Gary
+ * @date 2020/12/15
+ */
 @EnableWebSecurity
 class WebSecurityConfig(
     val passwordEncoder: PasswordEncoder,
@@ -18,7 +23,7 @@ class WebSecurityConfig(
     override fun configure(http: HttpSecurity?) {
         http!!.csrf().disable()
             .authorizeRequests()
-            .antMatchers("/hello").hasRole("USER")
+            .antMatchers("/hello").hasAnyRole("USER")
             .antMatchers("/users/login", "/users/register").permitAll()
             .anyRequest().authenticated()
             .and()

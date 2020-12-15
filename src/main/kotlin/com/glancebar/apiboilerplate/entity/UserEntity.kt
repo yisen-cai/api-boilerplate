@@ -4,6 +4,7 @@ import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 /**
@@ -18,9 +19,12 @@ class UserEntity(
     var username: String,
     var password: String,
     var birthday: LocalDate,
-    var genderEnum: GenderEnum = GenderEnum.UNKNOWN,
+    var gender: GenderEnum = GenderEnum.UNKNOWN,
     var roles: MutableSet<RoleEntity> = mutableSetOf(),
-    var authorities: MutableSet<AuthorityEntity> = mutableSetOf()
+    var authorities: MutableSet<AuthorityEntity> = mutableSetOf(),
+    var createTime: LocalDateTime = LocalDateTime.now(),
+    var isDelete: Boolean = false,
+    var isActive: Boolean = true
 ) {
 
     fun addRoles(role: RoleEntity) {

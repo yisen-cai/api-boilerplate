@@ -42,4 +42,10 @@ class UserEntity(
     fun removeAuthority(authority: AuthorityEntity) {
         authorities.remove(authority)
     }
+
+    override fun toString(): String {
+        return "UserEntity(id=$id, username='$username', password='$password', birthday=$birthday, gender=$gender, roles=$roles, authorities=$authorities, createTime=$createTime, isDelete=$isDelete, isActive=$isActive)"
+    }
+
+
 }

@@ -1,5 +1,8 @@
 package com.glancebar.apiboilerplate.entity
 
+import com.glancebar.apiboilerplate.exceptions.ParamsException
+import com.glancebar.apiboilerplate.utils.ErrResult
+
 
 /**
  * Gender enum
@@ -11,4 +14,15 @@ enum class GenderEnum(val value: String) {
     FEMALE("female"),
     CROSS_GENDER("cross"),
     UNKNOWN("unknown");
+
+    companion object {
+        fun convert(p0: String): GenderEnum {
+            for (gender in GenderEnum.values()) {
+                if (gender.value == p0) {
+                    return gender
+                }
+            }
+            throw ParamsException(null, errResult = ErrResult("性别错误", 1, null))
+        }
+    }
 }

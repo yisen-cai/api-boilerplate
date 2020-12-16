@@ -24,7 +24,7 @@ class WebSecurityConfig(
         http!!.csrf().disable()
             .authorizeRequests()
             .antMatchers("/hello").hasAnyRole("USER")
-            .antMatchers("/users/login", "/users/register").permitAll()
+            .antMatchers("/auth/login", "/auth/register").permitAll()
             .anyRequest().authenticated()
             .and()
             .httpBasic()

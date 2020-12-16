@@ -4,6 +4,7 @@ import com.glancebar.apiboilerplate.entity.RoleEntity
 import com.glancebar.apiboilerplate.entity.UserEntity
 import com.glancebar.apiboilerplate.repository.UserRepository
 import org.springframework.cache.annotation.CachePut
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Service
 @Service
 class UserDetailServiceImpl(val userRepository: UserRepository) : UserDetailsService {
 
-
     private fun getAuthorities(userEntity: UserEntity): List<GrantedAuthority> {
         val authorities: MutableSet<GrantedAuthority> = mutableSetOf()
         userEntity.roles.forEach { roleEntity: RoleEntity ->
@@ -37,6 +37,7 @@ class UserDetailServiceImpl(val userRepository: UserRepository) : UserDetailsSer
      * load user method
      */
     @CachePut(value = ["redisCache"], key = "'auth:user:' + #username")
+    @Cacheable(value = ["redisCache"], key = "'auth:user:' + #username")
     override fun loadUserByUsername(username: String): UserDetails {
         val userEntity: UserEntity? = userRepository.findTopByUsernameEquals(username)
         if (userEntity != null) {

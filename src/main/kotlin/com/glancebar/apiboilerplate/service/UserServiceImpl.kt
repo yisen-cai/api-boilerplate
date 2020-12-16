@@ -1,12 +1,16 @@
 package com.glancebar.apiboilerplate.service
 
 import com.glancebar.apiboilerplate.dto.UserDTO
+import com.glancebar.apiboilerplate.entity.GenderEnum
 import com.glancebar.apiboilerplate.entity.UserEntity
+import com.glancebar.apiboilerplate.exceptions.UsernameExistsException
 import com.glancebar.apiboilerplate.repository.UserRepository
+import com.glancebar.apiboilerplate.utils.Log
 import com.glancebar.apiboilerplate.vo.RegisterVO
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import java.time.LocalDate
+import java.time.Instant
+import java.time.ZoneId
 
 
 /**
@@ -15,15 +19,32 @@ import java.time.LocalDate
  * @date 2020/12/15
  */
 @Service
-class UserServiceImpl(val userRepository: UserRepository, val passwordEncoder: PasswordEncoder) : UserService {
+class UserServiceImpl(
+    val userRepository: UserRepository,
+    val passwordEncoder: PasswordEncoder
+) : UserService {
 
+    companion object : Log()
+
+    /**
+     * Using given param to register a user
+     */
     override fun registerUser(user: RegisterVO): UserDTO {
+        if (userRepository.existsByUsernameEquals(user.username)) {
+            throw UsernameExistsException()
+        }
+
         val userEntity = UserEntity(
             username = user.username,
             password = passwordEncoder.encode(user.password),
-            birthday = LocalDate.ofEpochDay(user.birthday)
+            birthday = Instant.ofEpochMilli(user.birthday).atZone(ZoneId.systemDefault()).toLocalDate(),
+            gender = GenderEnum.convert(user.gender),
+            roles = user.roles,
+            authorities = user.authorities
         )
+
         val result = userRepository.save(userEntity)
-        return UserDTO(result.id.toString(), result.username, result.gender, 0, 0, result.isDelete, result.isActive )
+        logger.info("User $result registered")
+        return UserDTO(result.id.toString(), result.username, result.gender, 0, 0, result.isDelete, result.isActive)
     }
 }

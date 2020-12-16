@@ -21,7 +21,7 @@ class AuthController(val userService: UserService) {
     @PostMapping("/register")
     fun registerUser(@RequestBody @Valid registerVO: RegisterVO, result: BindingResult): UserDTO {
         if (result.hasErrors()) {
-            throw ParamsException(result = result)
+            throw ParamsException(bindingResult = result)
         }
         return userService.registerUser(registerVO)
     }

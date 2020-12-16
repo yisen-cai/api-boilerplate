@@ -1,5 +1,6 @@
 package com.glancebar.apiboilerplate.exceptions
 
+import com.glancebar.apiboilerplate.utils.ErrResult
 import org.springframework.validation.BindingResult
 
 
@@ -9,9 +10,8 @@ import org.springframework.validation.BindingResult
  * @date 2020/12/15
  */
 class ParamsException(
-    errMsg: String = "",
-    errCode: Int = 1,
-    val result: BindingResult
+    val bindingResult: BindingResult?,
+    errResult: ErrResult = ErrResult("参数错误", 1, null)
 ) :
-    APIException(errMsg, errCode) {
+    APIException(errResult) {
 }

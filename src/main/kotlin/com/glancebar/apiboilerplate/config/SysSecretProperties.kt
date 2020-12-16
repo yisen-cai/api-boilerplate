@@ -5,5 +5,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "system")
-class SysSecretProperties(val secret: String) {
+class SysSecretProperties(
+    val secret: String
+    ) {
 }

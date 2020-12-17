@@ -22,17 +22,6 @@ import org.springframework.stereotype.Service
 @Service
 class UserDetailServiceImpl(val userRepository: UserRepository) : UserDetailsService {
 
-    private fun getAuthorities(userEntity: UserEntity): List<GrantedAuthority> {
-        val authorities: MutableSet<GrantedAuthority> = mutableSetOf()
-        userEntity.roles.forEach { roleEntity: RoleEntity ->
-            authorities.add(SimpleGrantedAuthority(roleEntity.name))
-            roleEntity.authorities.forEach { authorityEntity ->
-                authorities.add(SimpleGrantedAuthority(authorityEntity.name))
-            }
-        }
-        return authorities.toList()
-    }
-
     /**
      * load user method
      */
@@ -52,5 +41,19 @@ class UserDetailServiceImpl(val userRepository: UserRepository) : UserDetailsSer
             )
         }
         throw UsernameNotFoundException("Username not found!")
+    }
+
+    /**
+     * Get all authorities of user
+     */
+    private fun getAuthorities(userEntity: UserEntity): List<GrantedAuthority> {
+        val authorities: MutableSet<GrantedAuthority> = mutableSetOf()
+        userEntity.roles.forEach { roleEntity: RoleEntity ->
+            authorities.add(SimpleGrantedAuthority(roleEntity.name))
+            roleEntity.authorities.forEach { authorityEntity ->
+                authorities.add(SimpleGrantedAuthority(authorityEntity.name))
+            }
+        }
+        return authorities.toList()
     }
 }

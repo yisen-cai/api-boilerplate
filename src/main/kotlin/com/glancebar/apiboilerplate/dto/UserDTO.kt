@@ -1,6 +1,8 @@
 package com.glancebar.apiboilerplate.dto
 
 import com.glancebar.apiboilerplate.entity.GenderEnum
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 /**
@@ -12,8 +14,8 @@ data class UserDTO(
     val id: String,
     val username: String,
     val gender: GenderEnum,
-    val birthday: Long,
-    val createTime: Long,
+    val birthday: LocalDate,
+    val createTime: LocalDateTime,
     val isDelete: Boolean,
     val isActive: Boolean
 ) {

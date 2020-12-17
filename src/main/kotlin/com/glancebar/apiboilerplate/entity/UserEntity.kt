@@ -3,6 +3,7 @@ package com.glancebar.apiboilerplate.entity
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
+import java.io.Serializable
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -15,7 +16,7 @@ import java.time.LocalDateTime
 @Document(value = "user")
 class UserEntity(
     @Id
-    var id: ObjectId = ObjectId(),
+    var id: ObjectId? = null,
     var username: String,
     var password: String,
     var birthday: LocalDate,
@@ -25,7 +26,7 @@ class UserEntity(
     var createTime: LocalDateTime = LocalDateTime.now(),
     var isDelete: Boolean = false,
     var isActive: Boolean = true
-) {
+) : Serializable {
 
     fun addRoles(role: RoleEntity) {
         roles.add(role)
@@ -47,5 +48,18 @@ class UserEntity(
         return "UserEntity(id=$id, username='$username', password='$password', birthday=$birthday, gender=$gender, roles=$roles, authorities=$authorities, createTime=$createTime, isDelete=$isDelete, isActive=$isActive)"
     }
 
+    // must be implemented, will be used by mock test
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is UserEntity) return false
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
 
 }

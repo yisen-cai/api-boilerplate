@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/hello")
-class HelloController {
+class HelloController(
+
+) {
 
     private val logger1: Logger = LoggerFactory.getLogger(this.javaClass)
     private val logger2 by LoggerDelegate()

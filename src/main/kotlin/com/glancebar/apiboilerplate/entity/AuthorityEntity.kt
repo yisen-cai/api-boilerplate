@@ -14,23 +14,27 @@ import java.io.Serializable
 @Document(value = "authority")
 class AuthorityEntity(
     @Id
-    var id:ObjectId = ObjectId(),
+    var id: ObjectId? = null,
     var name: String,
     var description: String
 ) : Serializable {
 
+
+
+    override fun toString(): String {
+        return "AuthorityEntity(id=$id, name='$name', description='$description')"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (other !is AuthorityEntity) return false
 
-        other as AuthorityEntity
-
-        if (name != other.name) return false
+        if (id != other.id) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return name.hashCode()
+        return id?.hashCode() ?: 0
     }
 }

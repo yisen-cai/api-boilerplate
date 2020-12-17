@@ -18,4 +18,6 @@ interface UserRepository : MongoRepository<UserEntity, ObjectId> {
     fun findTopByUsernameEquals(username: String): UserEntity?
 
     fun existsByUsernameEquals(username: String): Boolean
+
+//    fun save(userEntity: UserEntity): UserEntity
 }

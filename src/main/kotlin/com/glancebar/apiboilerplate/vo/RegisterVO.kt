@@ -7,11 +7,12 @@ import javax.validation.constraints.NotNull
 
 
 /**
- *
+ * User register vo
  * @author Ethan Gary
  * @date 2020/12/15
  */
 class RegisterVO {
+
     @NotBlank(message = "username name can't be blank")
     var username: String = ""
 

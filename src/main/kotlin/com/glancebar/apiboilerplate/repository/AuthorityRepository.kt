@@ -12,4 +12,6 @@ import org.springframework.data.mongodb.repository.MongoRepository
  */
 interface AuthorityRepository : MongoRepository<AuthorityEntity, ObjectId> {
 
+    fun findTopByIdEquals(id: ObjectId): AuthorityEntity?
+
 }

@@ -12,6 +12,8 @@ import org.springframework.data.mongodb.repository.MongoRepository
  */
 interface UserRepository : MongoRepository<UserEntity, ObjectId> {
 
+    fun findByIdEquals(id: ObjectId): UserEntity?
+
     /**
      * find top by username
      */

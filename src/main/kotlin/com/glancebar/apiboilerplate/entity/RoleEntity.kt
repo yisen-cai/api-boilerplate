@@ -2,6 +2,7 @@ package com.glancebar.apiboilerplate.entity
 
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import java.io.Serializable
 
@@ -11,14 +12,18 @@ import java.io.Serializable
  * @author Ethan Gary
  * @date 2020/12/15
  */
-@Document(value = "role")
+@Document(value = "doc_role")
 class RoleEntity(
     @Id
     var id: ObjectId? = null,
     var name: String,
     var description: String,
+
+    @DBRef
     var authorities: MutableSet<AuthorityEntity> = mutableSetOf()
 ) : Serializable {
+
+
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -31,5 +36,9 @@ class RoleEntity(
 
     override fun hashCode(): Int {
         return id?.hashCode() ?: 0
+    }
+
+    override fun toString(): String {
+        return "RoleEntity(id=$id, name='$name', description='$description', authorities=$authorities)"
     }
 }

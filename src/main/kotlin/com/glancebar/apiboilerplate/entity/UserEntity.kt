@@ -2,6 +2,7 @@ package com.glancebar.apiboilerplate.entity
 
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import java.io.Serializable
 import java.time.LocalDate
@@ -13,7 +14,7 @@ import java.time.LocalDateTime
  * @author Ethan Gary
  * @date 2020//01
  */
-@Document(value = "user")
+@Document(value = "doc_user")
 class UserEntity(
     @Id
     var id: ObjectId? = null,
@@ -21,8 +22,13 @@ class UserEntity(
     var password: String,
     var birthday: LocalDate,
     var gender: GenderEnum = GenderEnum.UNKNOWN,
+
+    @DBRef
     var roles: MutableSet<RoleEntity> = mutableSetOf(),
+
+    @DBRef
     var authorities: MutableSet<AuthorityEntity> = mutableSetOf(),
+
     var createTime: LocalDateTime = LocalDateTime.now(),
     var isDelete: Boolean = false,
     var isActive: Boolean = true

@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.repository.MongoRepository
  * @author Ethan Gary
  * @date 2020/12/15
  */
-interface RoleRepository: MongoRepository<RoleEntity, ObjectId> {
+interface RoleRepository : MongoRepository<RoleEntity, ObjectId> {
 
+    fun findTopByIdEquals(id: ObjectId): RoleEntity?
 }

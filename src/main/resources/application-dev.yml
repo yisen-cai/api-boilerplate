@@ -5,15 +5,12 @@ system:
   secret: '!Q@W#E$R%T^&Y*U(OI)O'
 
 spring:
-  profiles:
-    active: dev
-
   data:
     mongodb:
       username: test
       password: secret
       port: 27017
-      database: boilerplate
+      database: db_boilerplate_dev
       host: yisen614.top
       authentication-database: admin
 

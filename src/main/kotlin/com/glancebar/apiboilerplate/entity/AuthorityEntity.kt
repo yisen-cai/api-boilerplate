@@ -11,7 +11,7 @@ import java.io.Serializable
  * @author Ethan Gary
  * @date 2020/12/15
  */
-@Document(value = "authority")
+@Document(value = "doc_authority")
 class AuthorityEntity(
     @Id
     var id: ObjectId? = null,

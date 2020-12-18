@@ -23,7 +23,7 @@ enum class GenderEnum(val value: String) {
                     return gender
                 }
             }
-            throw ParamsException(null, errResult = ErrResult("性别错误", 1, null))
+            throw ParamsException(errResult = ErrResult("性别错误", 1, null))
         }
     }
 }

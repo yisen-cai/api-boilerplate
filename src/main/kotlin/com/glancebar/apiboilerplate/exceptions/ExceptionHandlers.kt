@@ -4,7 +4,6 @@ import com.glancebar.apiboilerplate.utils.ErrResult
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
-import org.springframework.validation.FieldError
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -39,18 +38,11 @@ class ExceptionHandlers {
 
     @ExceptionHandler(ParamsException::class)
     fun handleParamsException(e: ParamsException): ResponseEntity<ErrResult> {
-        var detailsString = ""
-
-        if (e.bindingResult != null) {
-            val details: StringBuilder = StringBuilder()
-            e.bindingResult.fieldErrors.forEach { fieldError ->
-                details.append(fieldError.defaultMessage).append("\n")
-            }
-            detailsString = details.toString()
-        }
-
-        return ErrResult.ResponseBuilder().status(HttpStatus.BAD_REQUEST).result(e.errResult)
-            .details(detailsString).build()
+        e.printStackTrace()
+        return ErrResult.ResponseBuilder()
+            .result(e.errResult)
+            .status(HttpStatus.BAD_REQUEST)
+            .build()
     }
 
     @ExceptionHandler(RuntimeException::class)
@@ -67,16 +59,10 @@ class ExceptionHandlers {
      */
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidationException(e: MethodArgumentNotValidException): ResponseEntity<ErrResult> {
-        val details: MutableMap<String, String> = HashMap()
-
-        e.bindingResult.fieldErrors.forEach { error: FieldError ->
-            details[error.field] = error.defaultMessage!!
-        }
-
         return ErrResult.ResponseBuilder()
             .status(HttpStatus.BAD_REQUEST)
             .message("参数错误")
-            .details(details = details).build()
+            .details(details = e.message).build()
     }
 
 

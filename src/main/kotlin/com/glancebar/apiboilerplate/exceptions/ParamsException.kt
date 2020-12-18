@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult
  * @date 2020/12/15
  */
 class ParamsException(
-    val bindingResult: BindingResult?,
     errResult: ErrResult = ErrResult("参数错误", 1, null)
 ) :
     APIException(errResult) {

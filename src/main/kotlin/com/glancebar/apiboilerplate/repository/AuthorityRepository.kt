@@ -2,6 +2,8 @@ package com.glancebar.apiboilerplate.repository
 
 import com.glancebar.apiboilerplate.entity.AuthorityEntity
 import org.bson.types.ObjectId
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.mongodb.repository.MongoRepository
 
 
@@ -14,4 +16,7 @@ interface AuthorityRepository : MongoRepository<AuthorityEntity, ObjectId> {
 
     fun findTopByIdEquals(id: ObjectId): AuthorityEntity?
 
+    fun existsByNameEquals(name: String): Boolean
+
+//    override fun findAll(pageable: Pageable): Page<AuthorityEntity>
 }

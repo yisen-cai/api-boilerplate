@@ -10,7 +10,11 @@ import org.springframework.http.ResponseEntity
  * @author Ethan Gary
  * @date 2020/12/16
  */
-data class ErrResult(var errMsg: String, var errCode: Int, var details: Any?) {
+data class ErrResult(
+    var errMsg: String,
+    var errCode: Int = 1,
+    var details: Any? = null
+) {
 
     class ResponseBuilder(
         var result: ErrResult = ErrResult("ERROR", -1, null),

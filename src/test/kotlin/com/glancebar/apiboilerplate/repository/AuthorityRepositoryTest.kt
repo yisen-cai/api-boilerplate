@@ -2,6 +2,8 @@ package com.glancebar.apiboilerplate.repository
 
 import com.glancebar.apiboilerplate.entity.AuthorityEntity
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
@@ -37,21 +39,22 @@ class AuthorityRepositoryTest {
         val result = authorityRepository.save(authorityEntity)
 
         authorityResult = result
-        Assertions.assertNotNull(result.id)
+        assumeTrue(result.id != null)
+        assertNotNull(result.id)
     }
 
     @Test
     @Order(2)
     internal fun getAuthority() {
         val result = authorityRepository.findTopByIdEquals(authorityResult!!.id!!)
-        Assertions.assertNotNull(result)
+        assertNotNull(result)
     }
 
     @Test
     @Order(3)
     internal fun getAuthorities() {
         val authorities = authorityRepository.findAll()
-        Assertions.assertTrue(authorities.size > 0)
+        assertTrue(authorities.size > 0)
     }
 
     @Test
@@ -59,14 +62,14 @@ class AuthorityRepositoryTest {
     internal fun modifyAuthorities() {
         authorityResult!!.description = "new description"
         val updated = authorityRepository.save(authorityResult!!)
-        Assertions.assertEquals(authorityResult!!.id, updated.id)
-        Assertions.assertEquals(authorityResult!!.description, updated.description)
+        assertEquals(authorityResult!!.id, updated.id)
+        assertEquals(authorityResult!!.description, updated.description)
     }
 
     @Test
     @Order(5)
     internal fun deleteAuthorities() {
         authorityRepository.deleteById(authorityResult!!.id!!)
-        Assertions.assertNull(authorityRepository.findTopByIdEquals(authorityResult!!.id!!))
+        assertNull(authorityRepository.findTopByIdEquals(authorityResult!!.id!!))
     }
 }

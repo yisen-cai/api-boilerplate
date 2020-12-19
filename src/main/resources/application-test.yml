@@ -2,6 +2,9 @@ server:
   port: 8080
 system:
   secret: '!Q@W#E$R%T^&Y*U(OI)O'
+  role-prefix: 'ROLE_'
+
+
 spring:
   data:
     mongodb:

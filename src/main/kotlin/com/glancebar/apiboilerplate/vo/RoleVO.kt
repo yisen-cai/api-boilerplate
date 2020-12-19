@@ -10,6 +10,7 @@ import javax.validation.constraints.NotEmpty
  * @date 2020/12/16
  */
 class RoleVO {
+    var id: String? = null
 
     @NotEmpty(message = "role name must set")
     var name: String = ""

@@ -2,12 +2,12 @@ package com.glancebar.apiboilerplate.service
 
 import com.glancebar.apiboilerplate.entity.GenderEnum
 import com.glancebar.apiboilerplate.entity.UserEntity
-import com.glancebar.apiboilerplate.exceptions.UsernameExistsException
+import com.glancebar.apiboilerplate.exceptions.ParamsException
 import com.glancebar.apiboilerplate.repository.UserRepository
-import com.glancebar.apiboilerplate.utils.ErrResult
-import com.glancebar.apiboilerplate.utils.Log
-import com.glancebar.apiboilerplate.utils.OkResult
-import com.glancebar.apiboilerplate.vo.RegisterVO
+import com.glancebar.apiboilerplate.utils.*
+import com.glancebar.apiboilerplate.vo.UserVO
+import org.bson.types.ObjectId
+import org.springframework.data.repository.CrudRepository
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -24,7 +24,7 @@ import java.time.ZoneId
 @Service
 class UserServiceImpl(
     val userRepository: UserRepository,
-    val passwordEncoder: PasswordEncoder
+    val passwordEncoder: PasswordEncoder,
 ) : UserService {
 
     companion object : Log()
@@ -32,19 +32,10 @@ class UserServiceImpl(
     /**
      * Using given param to register a user
      */
-    override fun registerUser(user: RegisterVO): ResponseEntity<OkResult> {
-        if (userRepository.existsByUsernameEquals(user.username)) {
-            throw UsernameExistsException(ErrResult("${user.username} exists", 1, null))
-        }
+    override fun registerUser(userVO: UserVO): ResponseEntity<OkResult> {
+        validateUserVO(userVO)
 
-        val userEntity = UserEntity(
-            username = user.username,
-            password = passwordEncoder.encode(user.password),
-            birthday = Instant.ofEpochMilli(user.birthday).atZone(ZoneId.systemDefault()).toLocalDate(),
-            gender = GenderEnum.convert(user.gender),
-            roles = user.roles,
-            authorities = user.authorities
-        )
+        val userEntity = getEntity(userVO)
 
         val result = userRepository.save(userEntity)
 
@@ -56,5 +47,50 @@ class UserServiceImpl(
         return ResponseEntity
             .created(resultURI)
             .body(OkResult(msg = "User: `${result.username}` created", location = resultURI))
+    }
+
+    /**
+     * TODO
+     *
+     * @param userId
+     * @return
+     */
+    fun verifyUserExists(userId: String?): ObjectId {
+        return verifyEntityExists(userId, userRepository as CrudRepository<UserEntity, ObjectId>, logger)
+    }
+
+    /**
+     * TODO
+     *
+     * @param userVO
+     */
+    fun validateUserVO(userVO: UserVO) {
+        if (userRepository.existsByUsernameEquals(userVO.username)) {
+            val msg = "User username=`${userVO.username}` already exists"
+            logger.debug(msg)
+            throw ParamsException(ErrResult(msg))
+        }
+    }
+
+    /**
+     * TODO
+     *
+     * @param userVO
+     * @return
+     */
+    fun getEntity(userVO: UserVO): UserEntity {
+        val userEntity = UserEntity(
+            username = userVO.username,
+            password = passwordEncoder.encode(userVO.password),
+            birthday = Instant.ofEpochMilli(userVO.birthday).atZone(ZoneId.systemDefault()).toLocalDate(),
+            gender = GenderEnum.convert(userVO.gender),
+            roles = userVO.roles,
+            authorities = userVO.authorities
+        )
+        // when updated
+        if (userVO.id != null) {
+            userEntity.id = validateObjectId(userVO.id)
+        }
+        return userEntity
     }
 }

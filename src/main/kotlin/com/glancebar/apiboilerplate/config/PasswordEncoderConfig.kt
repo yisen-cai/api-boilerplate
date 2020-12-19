@@ -9,10 +9,10 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder
  * Password Encoder Bean initialization.
  */
 @Configuration
-class PasswordEncoderConfig(val sysSecretProperties: SysSecretProperties) {
+class PasswordEncoderConfig(val sysProperties: SysProperties) {
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {
-        return Pbkdf2PasswordEncoder(sysSecretProperties.secret)
+        return Pbkdf2PasswordEncoder(sysProperties.secret)
     }
 }

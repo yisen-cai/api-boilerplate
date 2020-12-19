@@ -4,6 +4,7 @@ import com.glancebar.apiboilerplate.entity.AuthorityEntity
 import com.glancebar.apiboilerplate.entity.RoleEntity
 import com.glancebar.apiboilerplate.utils.Log
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
@@ -37,7 +38,7 @@ class RoleRepositoryTest {
             description = "Test authority"
         )
         authority = authorityRepository.save(authorityEntity)
-        Assertions.assertNotNull(authority)
+        assertNotNull(authority)
     }
 
     @Test
@@ -54,21 +55,21 @@ class RoleRepositoryTest {
         logger.info("Inserted result $result")
 
         roleResult = result
-        Assertions.assertNotNull(result)
+        assertNotNull(result)
     }
 
     @Test
     @Order(3)
     internal fun getRole() {
         val result = roleRepository.findTopByIdEquals(roleResult!!.id!!)
-        Assertions.assertNotNull(result)
+        assertNotNull(result)
     }
 
     @Test
     @Order(4)
     internal fun getRoles() {
         val results = roleRepository.findAll()
-        Assertions.assertTrue(results.size > 0)
+        assertTrue(results.size > 0)
     }
 
     @Test
@@ -76,15 +77,15 @@ class RoleRepositoryTest {
     internal fun updateRole() {
         roleResult!!.description = "new description"
         val updated = roleRepository.save(roleResult!!)
-        Assertions.assertEquals(roleResult!!.id, updated.id)
-        Assertions.assertEquals(roleResult!!.description, updated.description)
+        assertEquals(roleResult!!.id, updated.id)
+        assertEquals(roleResult!!.description, updated.description)
     }
 
     @Test
     @Order(6)
     internal fun deleteRole() {
         roleRepository.deleteById(roleResult!!.id!!)
-        Assertions.assertNull(roleRepository.findTopByIdEquals(roleResult!!.id!!))
+        assertNull(roleRepository.findTopByIdEquals(roleResult!!.id!!))
     }
 
 }

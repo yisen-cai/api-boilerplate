@@ -58,7 +58,7 @@ internal class AuthControllerTest {
                 .content(user)
                 .contentType(MediaType.APPLICATION_JSON)
         )
-            .andExpect(MockMvcResultMatchers.status().isConflict)
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andExpect(
                 MockMvcResultMatchers.content()
                     .contentType(MediaType.APPLICATION_JSON)

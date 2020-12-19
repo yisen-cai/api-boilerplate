@@ -11,7 +11,9 @@ import javax.validation.constraints.NotNull
  * @author Ethan Gary
  * @date 2020/12/15
  */
-class RegisterVO {
+class UserVO {
+
+    var id: String? = null
 
     @NotBlank(message = "username name can't be blank")
     var username: String = ""

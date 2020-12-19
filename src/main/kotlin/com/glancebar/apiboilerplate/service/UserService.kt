@@ -1,7 +1,7 @@
 package com.glancebar.apiboilerplate.service
 
 import com.glancebar.apiboilerplate.utils.OkResult
-import com.glancebar.apiboilerplate.vo.RegisterVO
+import com.glancebar.apiboilerplate.vo.UserVO
 import org.springframework.http.ResponseEntity
 
 
@@ -11,5 +11,5 @@ import org.springframework.http.ResponseEntity
  * @date 2020/12/15
  */
 interface UserService {
-    fun registerUser(user: RegisterVO): ResponseEntity<OkResult>
+    fun registerUser(userVO: UserVO): ResponseEntity<OkResult>
 }

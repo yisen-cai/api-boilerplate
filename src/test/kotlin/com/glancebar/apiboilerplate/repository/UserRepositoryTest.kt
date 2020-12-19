@@ -4,7 +4,9 @@ import com.glancebar.apiboilerplate.entity.AuthorityEntity
 import com.glancebar.apiboilerplate.entity.GenderEnum
 import com.glancebar.apiboilerplate.entity.RoleEntity
 import com.glancebar.apiboilerplate.entity.UserEntity
+import com.glancebar.apiboilerplate.utils.Log
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -33,6 +35,8 @@ class UserRepositoryTest {
     @Autowired
     lateinit var authorityRepository: AuthorityRepository
 
+    companion object : Log()
+
     var roleResult: RoleEntity? = null
     var authorityResult: AuthorityEntity? = null
     var userResult: UserEntity? = null
@@ -45,7 +49,7 @@ class UserRepositoryTest {
             description = "This is authority"
         )
         authorityResult = authorityRepository.save(authority)
-        Assertions.assertNotNull(authorityResult)
+        assertNotNull(authorityResult)
     }
 
     @Test
@@ -57,7 +61,7 @@ class UserRepositoryTest {
             authorities = mutableSetOf(authorityResult!!)
         )
         roleResult = roleRepository.save(role)
-        Assertions.assertNotNull(roleResult)
+        assertNotNull(roleResult)
     }
 
 
@@ -74,14 +78,14 @@ class UserRepositoryTest {
         )
 
         userResult = userRepository.save(user)
-        Assertions.assertNotNull(userResult)
+        assertNotNull(userResult)
     }
 
     @Test
     @Order(4)
     internal fun getUser() {
-        val result = userRepository.findByIdEquals(userResult!!.id!!)
-        Assertions.assertNotNull(result)
+        val result = userRepository.findTopById(userResult!!.id!!)
+        assertNotNull(result)
     }
 
 
@@ -89,7 +93,7 @@ class UserRepositoryTest {
     @Order(5)
     internal fun getUsers() {
         val results = userRepository.findAll()
-        Assertions.assertTrue(results.size > 0)
+        assertTrue(results.size > 0)
     }
 
     @Test
@@ -97,15 +101,16 @@ class UserRepositoryTest {
     internal fun updateUser() {
         userResult!!.username = "hello"
         val result = userRepository.save(userResult!!)
-        Assertions.assertEquals(userResult!!.id, result.id)
-        Assertions.assertEquals(userResult!!.username, result.username)
+        assertEquals(userResult!!.id, result.id)
+        assertEquals(userResult!!.username, result.username)
     }
-
 
     @Test
     @Order(7)
     internal fun deleteUser() {
         userRepository.deleteById(userResult!!.id!!)
-        Assertions.assertNull(userRepository.findByIdEquals(userResult!!.id!!))
+        assertNull(userRepository.findTopByIdEquals(userResult!!.id!!))
     }
+
+
 }

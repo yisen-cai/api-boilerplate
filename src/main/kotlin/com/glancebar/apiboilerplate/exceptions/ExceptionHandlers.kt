@@ -11,14 +11,20 @@ import org.springframework.web.bind.annotation.ResponseBody
 
 
 /**
- * Exception handler, handle all exceptions.
- * @author Ethan Gary
- * @date 2020/12/16
+ * Exception handlers
+ *
+ * @constructor Create empty Exception handlers
  */
 @ResponseBody
 @ControllerAdvice
 class ExceptionHandlers {
 
+    /**
+     * Handle API exceptions
+     *
+     * @param e
+     * @return
+     */
     @ExceptionHandler(APIException::class)
     fun handleAPIExceptions(e: APIException): ResponseEntity<ErrResult> {
         e.printStackTrace()
@@ -28,6 +34,12 @@ class ExceptionHandlers {
             .build()
     }
 
+    /**
+     * Handle user exists exception
+     *
+     * @param e
+     * @return
+     */
     @ExceptionHandler(UsernameExistsException::class)
     fun handleUserExistsException(e: UsernameExistsException): ResponseEntity<ErrResult> {
         return ErrResult.ResponseBuilder()
@@ -36,6 +48,26 @@ class ExceptionHandlers {
             .build()
     }
 
+    /**
+     * Handle not found exception
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(NotFoundException::class)
+    fun handleNotFoundException(e: NotFoundException): ResponseEntity<ErrResult> {
+        return ErrResult.ResponseBuilder()
+            .result(e.errResult)
+            .status(HttpStatus.NOT_FOUND)
+            .build()
+    }
+
+    /**
+     * Handle params exception
+     *
+     * @param e
+     * @return
+     */
     @ExceptionHandler(ParamsException::class)
     fun handleParamsException(e: ParamsException): ResponseEntity<ErrResult> {
         e.printStackTrace()
@@ -45,6 +77,12 @@ class ExceptionHandlers {
             .build()
     }
 
+    /**
+     * Handle exceptions
+     *
+     * @param e
+     * @return
+     */
     @ExceptionHandler(RuntimeException::class)
     fun handleExceptions(e: RuntimeException): ResponseEntity<ErrResult> {
         e.printStackTrace()
@@ -55,7 +93,10 @@ class ExceptionHandlers {
 
 
     /**
-     * Handle Validation errors
+     * Handle validation exception
+     *
+     * @param e
+     * @return
      */
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidationException(e: MethodArgumentNotValidException): ResponseEntity<ErrResult> {
@@ -66,6 +107,12 @@ class ExceptionHandlers {
     }
 
 
+    /**
+     * Handle http message not readable exception
+     *
+     * @param ex
+     * @return
+     */
     @ExceptionHandler(HttpMessageNotReadableException::class)
     fun handleHttpMessageNotReadableException(ex: HttpMessageNotReadableException): ResponseEntity<ErrResult> {
         return ErrResult.ResponseBuilder().build()

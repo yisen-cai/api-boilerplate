@@ -10,6 +10,8 @@ import javax.validation.constraints.NotBlank
  */
 class AuthorityVO {
 
+    var id: String? = null
+
     @NotBlank(message = "name must be set")
     var name: String = ""
 

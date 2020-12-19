@@ -70,13 +70,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-jdk15
 
-      # https://github.community/t/continue-on-error-allow-failure-ui-indication/16773
-
-      - name: Pull docker base image and save
-        run: "docker pull openjdk:15-alpine && docker save openjdk:15-alpine > jdk15.tar"
-
       - name: Load cached image
         run: "test -f jdk15.tar && docker image import jdk15.tar"
+
+      # https://github.community/t/continue-on-error-allow-failure-ui-indication/16773
+      # first commit should run this
+      - name: Pull docker base image and save
+        run: "test -f jdk15.tar || (docker pull openjdk:15-alpine && docker save openjdk:15-alpine > jdk15.tar)"
 
       - name: Build Docker image
         run: "docker build -t api-boilerplate:v1 ."

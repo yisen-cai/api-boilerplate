@@ -59,7 +59,7 @@ class AuthorityRepositoryTest {
 
     @Test
     @Order(4)
-    internal fun modifyAuthorities() {
+    internal fun updateAuthority() {
         authorityResult!!.description = "new description"
         val updated = authorityRepository.save(authorityResult!!)
         assertEquals(authorityResult!!.id, updated.id)

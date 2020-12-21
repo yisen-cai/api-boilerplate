@@ -5,9 +5,12 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - mongo-ref
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:

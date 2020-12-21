@@ -27,7 +27,7 @@ fun validateObjectId(objectId: String?): ObjectId {
  * @param idString
  * @param repository
  * @param logger
- * @return
+ * @return ObjectId
  */
 inline fun <reified T> verifyEntityExists(
     idString: String?,

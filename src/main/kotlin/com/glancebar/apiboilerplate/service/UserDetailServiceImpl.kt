@@ -3,7 +3,6 @@ package com.glancebar.apiboilerplate.service
 import com.glancebar.apiboilerplate.entity.RoleEntity
 import com.glancebar.apiboilerplate.entity.UserEntity
 import com.glancebar.apiboilerplate.repository.UserRepository
-import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -25,7 +24,6 @@ class UserDetailServiceImpl(val userRepository: UserRepository) : UserDetailsSer
     /**
      * load user method
      */
-    @CachePut(value = ["redisCache"], key = "'auth:user:' + #username")
     @Cacheable(value = ["redisCache"], key = "'auth:user:' + #username")
     override fun loadUserByUsername(username: String): UserDetails {
         val userEntity: UserEntity? = userRepository.findTopByUsernameEquals(username)

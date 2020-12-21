@@ -26,7 +26,6 @@ import org.springframework.http.HttpStatus
  * @date 2020/12/19
  */
 @SpringBootTest
-@AutoConfigureMockMvc
 class RoleServiceImplTest {
 
     @Autowired

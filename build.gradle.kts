@@ -5,6 +5,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
     kotlin("jvm") version "1.4.21"
     kotlin("plugin.spring") version "1.4.21"
+//    kotlin("plugin.allopen") version "1.4.21"
 }
 
 group = "com.glancebar"
@@ -42,6 +43,13 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+//    {
+//        exclude(module = "junit")
+//        exclude(module = "mockito-core")
+//    }
+//    testImplementation("org.junit.jupiter:junit-jupiter-api")
+//    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+//    testImplementation("com.ninja-squad:springmockk:1.1.3")
     // testImplementation("org.springframework.kafka:spring-kafka-test")
     testImplementation("org.springframework.security:spring-security-test")
 }

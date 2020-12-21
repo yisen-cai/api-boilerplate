@@ -28,7 +28,7 @@ class RoleRepositoryTest {
     lateinit var authorityRepository: AuthorityRepository
 
     var roleResult: RoleEntity? = null
-    var authority: AuthorityEntity? = null
+    var authorityResult: AuthorityEntity? = null
 
     @Test
     @Order(1)
@@ -37,8 +37,8 @@ class RoleRepositoryTest {
             name = "TEST_AUTH",
             description = "Test authority"
         )
-        authority = authorityRepository.save(authorityEntity)
-        assertNotNull(authority)
+        authorityResult = authorityRepository.save(authorityEntity)
+        assertNotNull(authorityResult)
     }
 
     @Test
@@ -47,7 +47,7 @@ class RoleRepositoryTest {
         val role = RoleEntity(
             name = "USER",
             description = "Normal user role",
-            authorities = mutableSetOf(authority!!)
+            authorities = mutableSetOf(authorityResult!!)
         )
 
         val result = roleRepository.save(role)
@@ -88,4 +88,9 @@ class RoleRepositoryTest {
         assertNull(roleRepository.findTopByIdEquals(roleResult!!.id!!))
     }
 
+    @Test
+    internal fun deleteAuthority() {
+        authorityRepository.deleteById(authorityResult!!.id!!)
+        assertNull(authorityRepository.findTopByIdEquals(authorityResult!!.id!!))
+    }
 }

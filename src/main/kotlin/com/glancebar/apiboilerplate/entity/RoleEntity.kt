@@ -12,7 +12,7 @@ import java.io.Serializable
  * @author Ethan Gary
  * @date 2020/12/15
  */
-@Document(value = "doc_role")
+@Document(value = "role")
 class RoleEntity(
     @Id
     var id: ObjectId? = null,

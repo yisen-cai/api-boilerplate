@@ -1,9 +1,14 @@
 package com.glancebar.apiboilerplate.controller
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import com.glancebar.apiboilerplate.entity.AuthorityEntity
+import com.glancebar.apiboilerplate.service.AuthorityService
+import com.glancebar.apiboilerplate.utils.OkResult
+import com.glancebar.apiboilerplate.vo.AuthorityVO
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 
 /**
@@ -14,18 +19,38 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/authorities")
 class AuthorityController(
-
+    val authorityService: AuthorityService,
 ) {
 
     @PostMapping
-    fun addAuthorities() {
+    fun addAuthorities(@Valid @RequestBody authorityVO: AuthorityVO): ResponseEntity<OkResult> {
+        return authorityService.addAuthority(authorityVO)
+    }
 
+    @GetMapping("/{authorityId}")
+    fun getAuthority(@PathVariable authorityId: String): ResponseEntity<AuthorityEntity> {
+        return authorityService.getAuthority(authorityId)
+    }
+
+    @PutMapping("/{authorityId}")
+    fun updateAuthority(
+        @Valid @RequestBody authorityVO: AuthorityVO,
+        @PathVariable authorityId: String,
+    ): ResponseEntity<Any?> {
+
+        authorityVO.id = authorityId
+        return authorityService.updateAuthority(authorityVO)
+    }
+
+    @DeleteMapping("/{authorityId}")
+    fun deleteAuthority(@PathVariable authorityId: String): ResponseEntity<Any?> {
+        return authorityService.deleteAuthority(authorityId)
     }
 
 
     @GetMapping
-    fun getAuthorities() {
-
+    fun getAuthorities(@PageableDefault pageable: Pageable): ResponseEntity<Collection<AuthorityEntity>> {
+        return authorityService.getAuthorities(pageable)
     }
 
 }

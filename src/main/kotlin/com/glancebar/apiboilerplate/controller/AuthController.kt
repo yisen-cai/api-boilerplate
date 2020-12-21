@@ -16,7 +16,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/auth")
 class AuthController(
-    val userService: UserService
+    val userService: UserService,
 ) {
 
     /**
@@ -26,8 +26,6 @@ class AuthController(
     fun registerUser(@Valid @RequestBody userVO: UserVO): ResponseEntity<OkResult> {
         return userService.registerUser(userVO)
     }
-
-
 
     @PutMapping("/logout")
     fun logout() {

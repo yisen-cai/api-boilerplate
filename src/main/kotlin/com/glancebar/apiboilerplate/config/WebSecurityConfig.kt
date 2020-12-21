@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @EnableWebSecurity
 class WebSecurityConfig(
     val passwordEncoder: PasswordEncoder,
-    @Qualifier("userDetailServiceImpl") val userDetailsService: UserDetailsService
+    @Qualifier("userDetailServiceImpl") val userDetailsService: UserDetailsService,
 ) : WebSecurityConfigurerAdapter() {
 
 
@@ -25,6 +25,7 @@ class WebSecurityConfig(
             .authorizeRequests()
             .antMatchers("/hello").hasAnyRole("USER")
             .antMatchers("/auth/login", "/auth/register").permitAll()
+            .antMatchers("/roles/*", "/authorities/*").hasRole("ADMIN")
             .anyRequest().authenticated()
             .and()
             .httpBasic()

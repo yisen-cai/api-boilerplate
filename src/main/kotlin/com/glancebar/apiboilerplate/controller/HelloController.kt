@@ -2,6 +2,7 @@ package com.glancebar.apiboilerplate.controller
 
 import com.glancebar.apiboilerplate.utils.Log
 import com.glancebar.apiboilerplate.utils.LoggerDelegate
+import com.glancebar.apiboilerplate.utils.OkResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -23,6 +24,6 @@ class HelloController(
     @GetMapping
     fun hello(): ResponseEntity<Any> {
         logger.info("OK")
-        return ResponseEntity.ok("OK")
+        return ResponseEntity.ok(OkResult())
     }
 }

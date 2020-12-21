@@ -14,13 +14,13 @@ import java.time.LocalDateTime
  * @author Ethan Gary
  * @date 2020//01
  */
-@Document(value = "doc_user")
+@Document(value = "user")
 class UserEntity(
     @Id
     var id: ObjectId? = null,
     var username: String,
     var password: String,
-    var birthday: LocalDate,
+    var birthday: LocalDate = LocalDate.now(),
     var gender: GenderEnum = GenderEnum.UNKNOWN,
 
     @DBRef
@@ -31,7 +31,7 @@ class UserEntity(
 
     var createTime: LocalDateTime = LocalDateTime.now(),
     var isDelete: Boolean = false,
-    var isActive: Boolean = true
+    var isActive: Boolean = true,
 ) : Serializable {
 
     fun addRoles(role: RoleEntity) {

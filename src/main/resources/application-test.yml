@@ -19,7 +19,7 @@ spring:
     password: myredis
     host: yisen614.top
     port: 6379
-    timeout: 1000
+    timeout: 60000
     jedis:
       pool:
         min-idle: 5

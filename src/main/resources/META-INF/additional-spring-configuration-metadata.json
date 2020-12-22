@@ -4,6 +4,11 @@
       "name": "system.secret",
       "type": "java.lang.String",
       "description": "Password encoding secret."
+    },
+    {
+      "name": "system.role-prefix",
+      "type": "java.lang.String",
+      "description": "Description."
     }
   ]
 }

@@ -75,7 +75,7 @@ class RedisConfig(
         // load test.lua
         val script = this.initScript("$scriptPath/test.lua")
         testSha1 = redisTemplate.connectionFactory?.connection?.scriptLoad(script.scriptAsString.toByteArray())
-            ?: throw RuntimeException(message = "")
+            ?: throw RuntimeException()
 
         // load other lua script
 

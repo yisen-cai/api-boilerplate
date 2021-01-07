@@ -15,7 +15,7 @@ import java.time.LocalDateTime
  * @date 2020//01
  */
 @Document(value = "user")
-class UserEntity(
+data class UserEntity(
     @Id
     var id: ObjectId? = null,
     var username: String,
@@ -48,10 +48,6 @@ class UserEntity(
 
     fun removeAuthority(authority: AuthorityEntity) {
         authorities.remove(authority)
-    }
-
-    override fun toString(): String {
-        return "UserEntity(id=$id, username='$username', password='$password', birthday=$birthday, gender=$gender, roles=$roles, authorities=$authorities, createTime=$createTime, isDelete=$isDelete, isActive=$isActive)"
     }
 
     // must be implemented, will be used by mock test

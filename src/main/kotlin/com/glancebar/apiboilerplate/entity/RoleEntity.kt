@@ -13,7 +13,7 @@ import java.io.Serializable
  * @date 2020/12/15
  */
 @Document(value = "role")
-class RoleEntity(
+data class RoleEntity(
     @Id
     var id: ObjectId? = null,
     var name: String,
@@ -36,9 +36,5 @@ class RoleEntity(
 
     override fun hashCode(): Int {
         return id?.hashCode() ?: 0
-    }
-
-    override fun toString(): String {
-        return "RoleEntity(id=$id, name='$name', description='$description', authorities=$authorities)"
     }
 }

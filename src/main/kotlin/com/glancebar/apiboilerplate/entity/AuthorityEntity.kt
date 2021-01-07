@@ -12,18 +12,12 @@ import java.io.Serializable
  * @date 2020/12/15
  */
 @Document(value = "authority")
-class AuthorityEntity(
+data class AuthorityEntity(
     @Id
     var id: ObjectId? = null,
     var name: String,
-    var description: String
+    var description: String,
 ) : Serializable {
-
-
-
-    override fun toString(): String {
-        return "AuthorityEntity(id=$id, name='$name', description='$description')"
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Aspect
 import org.springframework.stereotype.Component
 
 /**
- * created by yisen614
+ * created by Ethan Gary
  * 2019-07-09
  */
 @Aspect
@@ -17,7 +17,7 @@ class RequestAspect {
     companion object : Log()
 
 
-    @Around("execution(* top.yisen614.controller.*.*(..))")
+    @Around("execution(* com.glancebar.controller.*.*(..))")
     @Throws(Throwable::class)
     fun handlerControllerMethod(pjp: ProceedingJoinPoint): Any {
 

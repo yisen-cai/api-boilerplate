@@ -74,7 +74,7 @@ jobs:
             ${{ runner.os }}-jdk15
 
       - name: Load cached image
-        run: "test -f jdk15.tar && docker image import jdk15.tar"
+        run: "test -f jdk15.tar && docker image import jdk15.tar || true"
 
       # https://github.community/t/continue-on-error-allow-failure-ui-indication/16773
       # first commit should run this

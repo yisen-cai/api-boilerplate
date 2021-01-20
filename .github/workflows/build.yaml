@@ -82,7 +82,6 @@ jobs:
         run: "test -f jdk15.tar || (docker pull openjdk:15-alpine && docker save openjdk:15-alpine > jdk15.tar)"
 
 
-
       - name: Build Docker image
         run: "docker build -t api-boilerplate:v1 ."
 

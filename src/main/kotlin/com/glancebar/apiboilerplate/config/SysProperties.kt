@@ -8,5 +8,6 @@ import org.springframework.boot.context.properties.ConstructorBinding
 data class SysProperties(
     val secret: String,
     val rolePrefix: String,
+    val expiration: Long
 ) {
 }

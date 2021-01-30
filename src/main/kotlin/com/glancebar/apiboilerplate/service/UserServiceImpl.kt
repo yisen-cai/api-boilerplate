@@ -1,5 +1,7 @@
 package com.glancebar.apiboilerplate.service
 
+import com.glancebar.apiboilerplate.auth.JwtUtil
+import com.glancebar.apiboilerplate.config.SysProperties
 import com.glancebar.apiboilerplate.entity.GenderEnum
 import com.glancebar.apiboilerplate.entity.UserEntity
 import com.glancebar.apiboilerplate.exceptions.ParamsException
@@ -9,6 +11,7 @@ import com.glancebar.apiboilerplate.vo.UserVO
 import org.bson.types.ObjectId
 import org.springframework.data.repository.CrudRepository
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.net.URI
@@ -25,6 +28,8 @@ import java.time.ZoneId
 class UserServiceImpl(
     val userRepository: UserRepository,
     val passwordEncoder: PasswordEncoder,
+    val jwtUtil: JwtUtil,
+    val sysProperties: SysProperties
 ) : UserService {
 
     companion object : Log()
@@ -34,19 +39,24 @@ class UserServiceImpl(
      */
     override fun registerUser(userVO: UserVO): ResponseEntity<OkResult> {
         validateUserVO(userVO)
-
         val userEntity = getEntity(userVO)
-
         val result = userRepository.save(userEntity)
-
         logger.info("User $result registered")
-
         val resultURI = URI("/users/${result.id}")
 
         // when entity was created, should return created status, and should not return relative info, return and id better
         return ResponseEntity
             .created(resultURI)
             .body(OkResult(msg = "User: `${result.username}` created", location = resultURI))
+    }
+
+    override fun loginUser(user: User): ResponseEntity<AuthResult> {
+        val expiration = System.currentTimeMillis() + sysProperties.expiration
+        val token = jwtUtil.generateToken(user, expiration)
+        val result = AuthResult(token, expiration)
+        logger.debug("User ${user.username} is logged in")
+        return ResponseEntity
+            .ok(result)
     }
 
     /**

@@ -4,11 +4,22 @@ server:
 system:
   secret: '!Q@W#E$R%T^&Y*U(OI)O'
   role-prefix: 'ROLE_'
+  expiration: 6000000
 
 spring:
   profiles:
     active: dev
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # The issuer-uri property points to the base Authorization Server URI, which can also be used to verify the iss claim, as an added security measure.
+          # Importantly, adding the issuer-uri property mandates that we should have the Authorization Server running before we can start the Resource Server application.
+          issuer-uri: http://localhost:8080/auth/realms/api
+          # JWTs include all the information within the Token. So the Resource Server needs to verify the Token’s signature to make sure the data has not been modified.
+          # The jwk-set-uri property contains the public key that the server can use for this purpose.
+          jwk-set-uri: http://localhost:8080/auth/realms/api/protocol/openid-connnect/certs
   data:
     mongodb:
       username: test

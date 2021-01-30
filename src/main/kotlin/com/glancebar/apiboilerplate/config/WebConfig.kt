@@ -1,10 +1,14 @@
 package com.glancebar.apiboilerplate.config
 
-import com.glancebar.apiboilerplate.TimeFilter
+import com.glancebar.apiboilerplate.filter.TimeFilter
 import com.glancebar.apiboilerplate.interceptor.TimeInterceptor
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.filter.CorsFilter
+import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
@@ -16,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
  */
 @Configuration
 class WebConfig(
-    val timeInterceptor: TimeInterceptor,
+    val timeInterceptor: TimeInterceptor
 ) : WebMvcConfigurer {
 
     @Bean
@@ -28,8 +32,35 @@ class WebConfig(
         return registrationBean
     }
 
-
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(timeInterceptor)
+    }
+
+
+    override fun addCorsMappings(registry: CorsRegistry) {
+        super.addCorsMappings(registry)
+//        registry
+//            .addMapping("/**")
+//            .allowedOrigins("*")
+//            .allowedMethods("*")
+//            .allowedHeaders("*")
+//            .allowCredentials(false).maxAge(3600)
+    }
+
+    /**
+     * <a href="https://spring.io/blog/2015/06/08/cors-support-in-spring-framework">
+     */
+//    @Bean
+    fun corsFilter(): FilterRegistrationBean<*> {
+        val source = UrlBasedCorsConfigurationSource()
+        val config = CorsConfiguration()
+        config.allowCredentials = true
+        config.addAllowedOrigin("*")
+        config.addAllowedMethod("*")
+        config.addAllowedHeader("*")
+        source.registerCorsConfiguration("/**", config)
+        val bean = FilterRegistrationBean(CorsFilter(source))
+        bean.order = 0
+        return bean
     }
 }

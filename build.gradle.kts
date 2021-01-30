@@ -30,7 +30,9 @@ dependencies {
         exclude(group = "io.lettuce", module = "lettuce-core")
     }
     implementation("redis.clients:jedis:3.3.0")
+
     implementation("org.springframework.boot:spring-boot-starter-security")
+
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -43,6 +45,11 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
+    // Uncomment the next line if you want to use RSASSA-PSS (PS256, PS384, PS512) algorithms:
+    //'org.bouncycastle:bcprov-jdk15on:1.60',
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2") // or 'io.jsonwebtoken:jjwt-gson:0.11.2' for gson
 //    {
 //        exclude(module = "junit")
 //        exclude(module = "mockito-core")

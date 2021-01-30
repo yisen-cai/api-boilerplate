@@ -9,6 +9,11 @@
       "name": "system.role-prefix",
       "type": "java.lang.String",
       "description": "Description."
+    },
+    {
+      "name": "system.expiration",
+      "type": "java.lang.String",
+      "description": "Description for system.expiration."
     }
   ]
 }

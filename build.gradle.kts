@@ -5,7 +5,8 @@ plugins {
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
     kotlin("jvm") version "1.4.21"
     kotlin("plugin.spring") version "1.4.21"
-//    kotlin("plugin.allopen") version "1.4.21"
+    id("maven-publish")
+    kotlin("plugin.allopen") version "1.4.21"
 }
 
 group = "com.glancebar"
@@ -19,9 +20,18 @@ configurations {
 }
 
 repositories {
-    mavenCentral()
     mavenLocal()
+    mavenCentral()
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
+}
+
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -40,6 +50,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-aop")
+    implementation("com.glancebar.wechat:spring-boot-wechat-starter:0.0.1")
+//    implementation("com.glancebar.wechat:wechat-library:0.0.1")
     // implementation("org.springframework.kafka:spring-kafka")
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -64,10 +76,14 @@ dependencies {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "14"
+        jvmTarget = "11"
     }
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+//tasks.named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
+//    args("--spring.profiles.active=dev")
+//}

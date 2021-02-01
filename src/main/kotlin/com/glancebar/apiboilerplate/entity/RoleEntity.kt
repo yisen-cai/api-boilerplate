@@ -24,7 +24,6 @@ data class RoleEntity(
 ) : Serializable {
 
 
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is RoleEntity) return false

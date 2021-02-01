@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - main
-      - mongo-ref
+#      - mongo-ref
   pull_request:
     branches:
       - main

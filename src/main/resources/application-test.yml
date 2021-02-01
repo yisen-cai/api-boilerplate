@@ -26,12 +26,6 @@ spring:
         max-active: 10
         max-wait: 2000
 
-  cache:
-    type: redis
-    cache-names: redisCache
-    redis:
-      time-to-live: 600000
-
   devtools:
     livereload:
       enabled: true

@@ -5,9 +5,12 @@ import com.glancebar.apiboilerplate.config.SysProperties
 import com.glancebar.apiboilerplate.entity.GenderEnum
 import com.glancebar.apiboilerplate.entity.UserEntity
 import com.glancebar.apiboilerplate.exceptions.ParamsException
+import com.glancebar.apiboilerplate.exceptions.WechatNonExistsException
 import com.glancebar.apiboilerplate.repository.UserRepository
 import com.glancebar.apiboilerplate.utils.*
 import com.glancebar.apiboilerplate.vo.UserVO
+import com.glancebar.apiboilerplate.vo.WechatLoginVO
+import com.glancebar.wechat.WechatMiniProgramApi
 import org.bson.types.ObjectId
 import org.springframework.data.repository.CrudRepository
 import org.springframework.http.ResponseEntity
@@ -29,7 +32,8 @@ class UserServiceImpl(
     val userRepository: UserRepository,
     val passwordEncoder: PasswordEncoder,
     val jwtUtil: JwtUtil,
-    val sysProperties: SysProperties
+    val sysProperties: SysProperties,
+    val wechatMiniProgramApi: WechatMiniProgramApi
 ) : UserService {
 
     companion object : Log()
@@ -51,12 +55,33 @@ class UserServiceImpl(
     }
 
     override fun loginUser(user: User): ResponseEntity<AuthResult> {
-        val expiration = System.currentTimeMillis() + sysProperties.expiration
-        val token = jwtUtil.generateToken(user, expiration)
-        val result = AuthResult(token, expiration)
+        val result = generateAuthResult(user)
         logger.debug("User ${user.username} is logged in")
         return ResponseEntity
             .ok(result)
+    }
+
+
+    override fun wechatLogin(wechatLoginVO: WechatLoginVO): ResponseEntity<WechatAuthResult> {
+        val code2SessionResult = wechatMiniProgramApi.code2Session(wechatLoginVO.jsCode)
+        val user = userRepository.findTopByWechatOpenIdEquals(code2SessionResult.openid)
+            ?: throw WechatNonExistsException(
+                ErrResult(
+                    "User does not register!"
+                )
+            )
+
+        // generate jwt token for login user
+        val expiration = System.currentTimeMillis() + sysProperties.expiration
+        return ResponseEntity.ok(
+            WechatAuthResult(
+                user,
+                AuthResult(
+                    jwtUtil.generateToken(user, expiration),
+                    expiration
+                )
+            )
+        )
     }
 
     /**
@@ -80,6 +105,12 @@ class UserServiceImpl(
             logger.debug(msg)
             throw ParamsException(ErrResult(msg))
         }
+    }
+
+    private fun generateAuthResult(user: User): AuthResult {
+        val expiration = System.currentTimeMillis() + sysProperties.expiration
+        val token = jwtUtil.generateToken(user, expiration)
+        return AuthResult(token, expiration)
     }
 
     /**

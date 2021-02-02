@@ -16,6 +16,9 @@ interface UserRepository : MongoRepository<UserEntity, ObjectId> {
 
     fun findTopById(id: ObjectId): UserEntity?
 
+    @Query(value = "{ '_class' : 'com.glancebar.apiboilerplate.dto.UserDTO' }")
+    fun findTopByWechatOpenIdEquals(openId: String): UserDTO?
+
     /**
      * find top by username
      */

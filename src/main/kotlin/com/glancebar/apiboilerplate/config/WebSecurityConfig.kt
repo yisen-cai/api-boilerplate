@@ -2,7 +2,6 @@ package com.glancebar.apiboilerplate.config
 
 import com.glancebar.apiboilerplate.auth.*
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasAuthority
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -49,7 +48,11 @@ class WebSecurityConfig(
 
         http3.authorizeRequests()
             .antMatchers("/hello").hasAnyRole("USER")
-            .antMatchers("/auth/login", "/auth/register").permitAll()
+            .antMatchers(
+                "/auth/login",
+                "/wechat/mini-program/login",
+                "/auth/register"
+            ).permitAll()
             .antMatchers("/roles/*", "/authorities/*").hasRole("ADMIN")
             .anyRequest().authenticated()
 

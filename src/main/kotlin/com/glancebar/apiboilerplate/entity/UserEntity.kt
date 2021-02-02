@@ -22,6 +22,7 @@ data class UserEntity(
     var password: String,
     var birthday: LocalDate = LocalDate.now(),
     var gender: GenderEnum = GenderEnum.UNKNOWN,
+    var wechatOpenId: String = "",
 
     @DBRef
     var roles: MutableSet<RoleEntity> = mutableSetOf(),

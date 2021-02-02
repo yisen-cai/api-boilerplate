@@ -22,5 +22,4 @@ data class UserDTO(
     val createTime: LocalDateTime,
     val isDelete: Boolean,
     val isActive: Boolean,
-) {
-}
+)

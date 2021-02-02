@@ -9,6 +9,4 @@ package com.glancebar.apiboilerplate.utils
 data class AuthResult(
     val accessToken: String,
     val expiration: Long
-) {
-
-}
+)

@@ -14,6 +14,7 @@ class JwtAuthenticationToken(
     authorities: Collection<GrantedAuthority?> = emptyList()
 ) : AbstractAuthenticationToken(authorities) {
 
+
     private var principal: Any? = null
 
     constructor(
@@ -25,10 +26,16 @@ class JwtAuthenticationToken(
         super.setAuthenticated(true)
     }
 
+    /**
+     * The credentials that prove the principal is correct. jwt token
+     */
     override fun getCredentials(): Any? {
         return this.credentials
     }
 
+    /**
+     * The identity of the principal being authenticated. Like authenticated user
+     */
     override fun getPrincipal(): Any? {
         return this.principal
     }

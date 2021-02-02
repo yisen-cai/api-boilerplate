@@ -35,6 +35,17 @@ class ExceptionHandlers {
     }
 
     /**
+     *
+     */
+    @ExceptionHandler(WechatNonExistsException::class)
+    fun handleWechatNonExistsException(e: WechatNonExistsException): ResponseEntity<ErrResult> {
+        return ErrResult.ResponseBuilder()
+            .result(e.errResult)
+            .status(HttpStatus.CONFLICT)
+            .build()
+    }
+
+    /**
      * Handle user exists exception
      *
      * @param e

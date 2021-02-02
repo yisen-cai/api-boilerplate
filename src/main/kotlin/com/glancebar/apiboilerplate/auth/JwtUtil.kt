@@ -1,5 +1,6 @@
 package com.glancebar.apiboilerplate.auth
 
+import com.glancebar.apiboilerplate.dto.UserDTO
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -45,8 +46,22 @@ class JwtUtil {
         claims["isNonExpired"] = user.isAccountNonExpired
         claims["isEnabled"] = user.isEnabled
         claims["isNonLocked"] = user.isAccountNonLocked
-        claims["isCredentialNoneExpired"] = user.isCredentialsNonExpired
+        claims["isCredentialNonExpired"] = user.isCredentialsNonExpired
 
+        return Jwts.builder()
+            .setClaims(claims)
+            .setExpiration(Date(expiration))
+            .signWith(key)
+            .compact()
+    }
+
+    fun generateToken(user: UserDTO, expiration: Long): String {
+        val claims = Jwts.claims().setSubject(user.username)
+        claims["username"] = user.username
+        claims["isNonExpired"] = true
+        claims["isEnabled"] = true
+        claims["isNonLocked"] = user.isActive
+        claims["isCredentialNonExpired"] = true
         return Jwts.builder()
             .setClaims(claims)
             .setExpiration(Date(expiration))

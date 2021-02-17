@@ -14,14 +14,15 @@ import java.time.LocalDateTime
  * @author Ethan Gary
  * @date 2020//01
  */
-@Document(value = "doc_user")
-class UserEntity(
+@Document(value = "user")
+data class UserEntity(
     @Id
     var id: ObjectId? = null,
     var username: String,
     var password: String,
-    var birthday: LocalDate,
+    var birthday: LocalDate = LocalDate.now(),
     var gender: GenderEnum = GenderEnum.UNKNOWN,
+    var wechatOpenId: String = "",
 
     @DBRef
     var roles: MutableSet<RoleEntity> = mutableSetOf(),
@@ -31,7 +32,7 @@ class UserEntity(
 
     var createTime: LocalDateTime = LocalDateTime.now(),
     var isDelete: Boolean = false,
-    var isActive: Boolean = true
+    var isActive: Boolean = true,
 ) : Serializable {
 
     fun addRoles(role: RoleEntity) {
@@ -48,10 +49,6 @@ class UserEntity(
 
     fun removeAuthority(authority: AuthorityEntity) {
         authorities.remove(authority)
-    }
-
-    override fun toString(): String {
-        return "UserEntity(id=$id, username='$username', password='$password', birthday=$birthday, gender=$gender, roles=$roles, authorities=$authorities, createTime=$createTime, isDelete=$isDelete, isActive=$isActive)"
     }
 
     // must be implemented, will be used by mock test

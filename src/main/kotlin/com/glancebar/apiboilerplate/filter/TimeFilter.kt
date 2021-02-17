@@ -1,4 +1,4 @@
-package com.glancebar.apiboilerplate
+package com.glancebar.apiboilerplate.filter
 
 import com.glancebar.apiboilerplate.utils.Log
 import javax.servlet.Filter
@@ -18,7 +18,7 @@ class TimeFilter : Filter {
 
     override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
         logger.info("time filter init....")
-        var start = System.currentTimeMillis()
+        val start = System.currentTimeMillis()
         chain!!.doFilter(request, response)
         val end = System.currentTimeMillis()
         logger.info("time filter ended....")

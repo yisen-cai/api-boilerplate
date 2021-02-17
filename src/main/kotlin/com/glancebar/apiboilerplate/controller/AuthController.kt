@@ -1,9 +1,13 @@
 package com.glancebar.apiboilerplate.controller
 
 import com.glancebar.apiboilerplate.service.UserService
+import com.glancebar.apiboilerplate.utils.AuthResult
 import com.glancebar.apiboilerplate.utils.OkResult
 import com.glancebar.apiboilerplate.vo.UserVO
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.User
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
@@ -16,7 +20,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/auth")
 class AuthController(
-    val userService: UserService
+    val userService: UserService,
 ) {
 
     /**
@@ -27,15 +31,14 @@ class AuthController(
         return userService.registerUser(userVO)
     }
 
-
-
     @PutMapping("/logout")
     fun logout() {
         TODO("Logout")
     }
 
-    @PutMapping("/login")
-    fun login() {
-        TODO("Login")
+    @PostMapping("/login")
+    fun login(@AuthenticationPrincipal user: User): ResponseEntity<AuthResult> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        return userService.loginUser(user)
     }
 }

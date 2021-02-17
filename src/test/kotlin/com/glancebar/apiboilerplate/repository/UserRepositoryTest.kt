@@ -112,5 +112,9 @@ class UserRepositoryTest {
         assertNull(userRepository.findTopByIdEquals(userResult!!.id!!))
     }
 
-
+    @Test
+    internal fun deleteRoleAndAuthority() {
+        roleRepository.deleteById(roleResult!!.id!!)
+        authorityRepository.deleteById(authorityResult!!.id!!)
+    }
 }

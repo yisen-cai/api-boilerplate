@@ -6,16 +6,23 @@ import org.springframework.http.ResponseEntity
 
 
 /**
- *
+ * Error Result body, supply error message and code to track issue.
  * @author Ethan Gary
  * @date 2020/12/16
  */
 data class ErrResult(
     var errMsg: String,
     var errCode: Int = 1,
-    var details: Any? = null
+    var details: Any? = null,
 ) {
 
+    /**
+     * There we use Builder pattern.
+     * In kotlin, internal class default static class.
+     * @property result
+     * @property headers
+     * @property httpStatus
+     */
     class ResponseBuilder(
         var result: ErrResult = ErrResult("ERROR", -1, null),
         var headers: HttpHeaders = HttpHeaders(),
@@ -51,7 +58,11 @@ data class ErrResult(
             return this
         }
 
-
+        /**
+         * Build ResponseEntity with those information it's collected
+         *
+         * @return
+         */
         fun build(): ResponseEntity<ErrResult> {
             return ResponseEntity<ErrResult>(result, headers, httpStatus)
         }

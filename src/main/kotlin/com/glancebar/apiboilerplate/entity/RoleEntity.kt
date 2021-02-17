@@ -12,8 +12,8 @@ import java.io.Serializable
  * @author Ethan Gary
  * @date 2020/12/15
  */
-@Document(value = "doc_role")
-class RoleEntity(
+@Document(value = "role")
+data class RoleEntity(
     @Id
     var id: ObjectId? = null,
     var name: String,
@@ -22,7 +22,6 @@ class RoleEntity(
     @DBRef
     var authorities: MutableSet<AuthorityEntity> = mutableSetOf()
 ) : Serializable {
-
 
 
     override fun equals(other: Any?): Boolean {
@@ -36,9 +35,5 @@ class RoleEntity(
 
     override fun hashCode(): Int {
         return id?.hashCode() ?: 0
-    }
-
-    override fun toString(): String {
-        return "RoleEntity(id=$id, name='$name', description='$description', authorities=$authorities)"
     }
 }

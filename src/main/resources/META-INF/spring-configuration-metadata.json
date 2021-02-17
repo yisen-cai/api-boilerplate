@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "system.secret",
+      "type": "java.lang.String",
+      "description": "Password encoding secret."
+    },
+    {
+      "name": "system.role-prefix",
+      "type": "java.lang.String",
+      "description": "Description."
+    },
+    {
+      "name": "system.expiration",
+      "type": "java.lang.String",
+      "description": "Description for system.expiration."
+    }
+  ]
+}

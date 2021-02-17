@@ -5,8 +5,9 @@ import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "system")
-class SysProperties(
+data class SysProperties(
     val secret: String,
-    val rolePrefix: String
+    val rolePrefix: String,
+    val expiration: Long
 ) {
 }

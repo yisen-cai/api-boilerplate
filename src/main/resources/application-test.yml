@@ -19,18 +19,12 @@ spring:
     password: myredis
     host: yisen614.top
     port: 6379
-    timeout: 1000
+    timeout: 60000
     jedis:
       pool:
         min-idle: 5
         max-active: 10
         max-wait: 2000
-
-  cache:
-    type: redis
-    cache-names: redisCache
-    redis:
-      time-to-live: 600000
 
   devtools:
     livereload:

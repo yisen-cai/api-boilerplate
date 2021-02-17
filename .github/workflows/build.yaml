@@ -5,9 +5,12 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - mongo-ref
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
@@ -24,11 +27,13 @@ jobs:
           java-version: 15
 
 
+
       - name: Cache gradle dependency
         uses: actions/cache@v1
         with:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
       - uses: actions/cache@v1
         with:
           path: ~/.gradle/caches
@@ -37,13 +42,12 @@ jobs:
             ${{ runner.os }}-gradle-caches-
 
 
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-
       - name: Build with Gradle
         run: ./gradlew build
-
 
       - name: Build Artifacts
         uses: actions/upload-artifact@v2
@@ -53,13 +57,12 @@ jobs:
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
 
 
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-
 
       - name: Cache docker image
         uses: actions/cache@v2
@@ -71,19 +74,16 @@ jobs:
             ${{ runner.os }}-jdk15
 
       - name: Load cached image
-        run: "test -f jdk15.tar && docker image import jdk15.tar"
+        run: "test -f jdk15.tar && docker image import jdk15.tar || true"
 
       # https://github.community/t/continue-on-error-allow-failure-ui-indication/16773
       # first commit should run this
       - name: Pull docker base image and save
         run: "test -f jdk15.tar || (docker pull openjdk:15-alpine && docker save openjdk:15-alpine > jdk15.tar)"
 
-      - name: Build Docker image
-        run: "docker build -t api-boilerplate:v1 ."
 
+#      - name: Build Docker image
+#        run: "docker build -t api-boilerplate:v1 ."
 
-      - name: Build docker image
-        run: "docker build -t api-boilerplate:v1 ."
-#
 #      - name: Push docker image
 #        run: "docker push api-boilerplate:v1"

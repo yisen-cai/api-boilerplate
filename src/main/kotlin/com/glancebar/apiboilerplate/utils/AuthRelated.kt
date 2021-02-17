@@ -20,13 +20,18 @@ import java.nio.charset.Charset
  * @return
  */
 fun createRequestEntity(username: String, password: String): HttpEntity<String> {
-    val headers = HttpHeaders()
+    val headers = createRequestHeaders(username, password)
+    return HttpEntity<String>(headers)
+}
+
+fun createRequestHeaders(username: String, password: String): HttpHeaders {
     val auth = Base64.encodeBase64("$username:$password".toByteArray(Charset.forName("US-ASCII")))
+    val headers = HttpHeaders()
     val authString = "Basic ${String(auth)}"
 //        'Authorization: Basic ZXRoYW46MTIzNDU2'
     headers.add(
         "Authorization",
         authString
     )
-    return HttpEntity<String>(headers)
+    return headers
 }

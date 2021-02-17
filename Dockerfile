@@ -4,6 +4,7 @@ ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
 
+
 FROM openjdk:15-alpine
 WORKDIR application
 COPY --from=builder application/dependencies/ ./

@@ -23,11 +23,10 @@ class JwtAuthenticationToken(
         authorities: Collection<GrantedAuthority?>
     ) : this(credentials, authorities) {
         this.principal = principal
-        super.setAuthenticated(true)
     }
 
     /**
-     * The credentials that prove the principal is correct. jwt token
+     * The credentials that prove the principal is correct, here it stores jwt token
      */
     override fun getCredentials(): Any? {
         return this.credentials

@@ -65,6 +65,8 @@ class JwtAuthenticationProvider
             authentication!!.credentials,
             user!!.authorities
         )
+        // set the authentication is success
+        result.isAuthenticated = true
         // set request details
         result.details = ""
         return result

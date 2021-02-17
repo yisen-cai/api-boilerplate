@@ -1,6 +1,7 @@
 package com.glancebar.apiboilerplate.controller
 
 import com.glancebar.apiboilerplate.service.AuthorityService
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -30,7 +31,8 @@ internal class AuthorityControllerTest {
     @Autowired
     lateinit var mockMvc: MockMvc
 
-//    @Test
+    @Test
+    @Disabled("")
     fun addAuthority() {
         val body =
             """

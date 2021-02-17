@@ -44,7 +44,7 @@ class UserServiceImplTest {
     internal fun registerUser() {
         registerVO.username = userEntityUsername
         registerVO.password = userEntityPassword
-        registerVO.birthday = userEntityBirthday.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC) * 1000;
+        registerVO.birthday = userEntityBirthday.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC) * 1000
         val before = UserEntity(
             username = userEntityUsername,
             password = userEntityPassword,

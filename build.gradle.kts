@@ -50,7 +50,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-aop")
-    implementation("com.glancebar.wechat:spring-boot-wechat-starter:0.0.1")
+    implementation("com.glancebar.wechat:spring-boot-wechat-starter:0.0.2")
 //    implementation("com.glancebar.wechat:wechat-library:0.0.1")
     // implementation("org.springframework.kafka:spring-kafka")
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")

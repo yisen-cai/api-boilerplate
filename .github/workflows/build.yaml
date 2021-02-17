@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - main
-#      - mongo-ref
+      - mongo-ref
   pull_request:
     branches:
       - main
@@ -82,11 +82,8 @@ jobs:
         run: "test -f jdk15.tar || (docker pull openjdk:15-alpine && docker save openjdk:15-alpine > jdk15.tar)"
 
 
-      - name: Build Docker image
-        run: "docker build -t api-boilerplate:v1 ."
-
-      - name: Build docker image
-        run: "docker build -t api-boilerplate:v1 ."
+#      - name: Build Docker image
+#        run: "docker build -t api-boilerplate:v1 ."
 
 #      - name: Push docker image
 #        run: "docker push api-boilerplate:v1"

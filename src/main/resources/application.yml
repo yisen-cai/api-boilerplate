@@ -1,0 +1,87 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+system:
+  secret: '!Q@W#E$R%T^&Y*U(OI)O'
+  role-prefix: 'ROLE_'
+  expiration: 6000000
+
+wechat:
+  mini-program:
+    app-id: wxef1c59645f9a2569
+    app-secret: be5c2c31927934d2d2fcc7ef14b95691
+
+spring:
+  profiles:
+    active: dev
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # The issuer-uri property points to the base Authorization Server URI, which can also be used to verify the iss claim, as an added security measure.
+          # Importantly, adding the issuer-uri property mandates that we should have the Authorization Server running before we can start the Resource Server application.
+          issuer-uri: http://localhost:8080/auth/realms/api
+          # JWTs include all the information within the Token. So the Resource Server needs to verify the Token’s signature to make sure the data has not been modified.
+          # The jwk-set-uri property contains the public key that the server can use for this purpose.
+          jwk-set-uri: http://localhost:8080/auth/realms/api/protocol/openid-connnect/certs
+  data:
+    mongodb:
+      username: test
+      password: secret
+      port: 27017
+      database: boilerplate
+      host: yisen614.top
+      authentication-database: admin
+
+  redis:
+    password: myredis
+    host: yisen614.top
+    port: 6379
+    timeout: 60000
+    jedis:
+      pool:
+        min-idle: 5
+        max-active: 10
+        max-wait: 2000
+
+  devtools:
+    livereload:
+      enabled: true
+      port: 35729
+    restart:
+      enabled: true
+      poll-interval: 1000
+      quiet-period: 40
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # include: info,health,beans
+        include: '*'
+      # actuator前缀
+      base-path: /actuator
+    # 默认情况下所有端点都不启动
+    enabled-by-default: false
+  endpoint:
+    mappings:
+      enabled: true
+    shutdown:
+      # /close
+      enabled: true
+    health:
+      enabled: true
+      show-details: when_authorized
+      status:
+        order: DOWN, OUT_OF_SERVICE, UP, UNKNOWN
+    env:
+      enabled: true
+    beans:
+      enabled: true
+    info:
+      enabled: true
+    db-check:
+      enabled: true

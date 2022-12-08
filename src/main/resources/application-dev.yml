@@ -1,0 +1,73 @@
+server:
+  port: 8080
+
+system:
+  secret: '!Q@W#E$R%T^&Y*U(OI)O'
+  role-prefix: 'ROLE_'
+
+spring:
+  data:
+    mongodb:
+      username: mongo
+      password: mongo
+      port: 27017
+      database: db_boilerplate_dev
+      host: basement
+      authentication-database: admin
+    redis:
+      host: basement
+      password: myredis
+      port: 6379
+      # set longer, or it will throw connect timeout error, then cause application restart
+      timeout: 60000
+      jedis:
+        pool:
+          min-idle: 5
+          max-active: 10
+          max-wait: 2000
+      connect-timeout: 10000
+
+  cache:
+    type: redis
+    cache-names: redisCache
+    redis:
+      time-to-live: 600000
+
+  devtools:
+    livereload:
+      enabled: true
+      port: 35729
+    restart:
+      enabled: true
+      poll-interval: 1000
+      quiet-period: 40
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # include: info,health,beans
+        include: '*'
+      # actuator前缀
+      base-path: /actuator
+    # 默认情况下所有端点都不启动
+    enabled-by-default: false
+  endpoint:
+    mappings:
+      enabled: true
+    shutdown:
+      # /close
+      enabled: true
+    health:
+      enabled: true
+      show-details: when_authorized
+      status:
+        order: DOWN, OUT_OF_SERVICE, UP, UNKNOWN
+    env:
+      enabled: true
+    beans:
+      enabled: true
+    info:
+      enabled: true
+    db-check:
+      enabled: true

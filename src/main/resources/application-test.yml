@@ -1,0 +1,66 @@
+server:
+  port: 8080
+system:
+  secret: '!Q@W#E$R%T^&Y*U(OI)O'
+  role-prefix: 'ROLE_'
+
+
+spring:
+  data:
+    mongodb:
+      username: test
+      password: secret
+      port: 27017
+      database: db_boilerplate_test
+      host: yisen614.top
+      authentication-database: admin
+
+  redis:
+    password: myredis
+    host: yisen614.top
+    port: 6379
+    timeout: 60000
+    jedis:
+      pool:
+        min-idle: 5
+        max-active: 10
+        max-wait: 2000
+
+  devtools:
+    livereload:
+      enabled: true
+      port: 35729
+    restart:
+      enabled: true
+      poll-interval: 1000
+      quiet-period: 40
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # include: info,health,beans
+        include: '*'
+      # actuator前缀
+      base-path: /actuator
+    # 默认情况下所有端点都不启动
+    enabled-by-default: false
+  endpoint:
+    mappings:
+      enabled: true
+    shutdown:
+      # /close
+      enabled: true
+    health:
+      enabled: true
+      show-details: when_authorized
+      status:
+        order: DOWN, OUT_OF_SERVICE, UP, UNKNOWN
+    env:
+      enabled: true
+    beans:
+      enabled: true
+    info:
+      enabled: true
+    db-check:
+      enabled: true

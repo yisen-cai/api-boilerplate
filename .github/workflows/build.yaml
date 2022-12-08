@@ -1,0 +1,89 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Java CI with Gradle
+
+on:
+  push:
+    branches:
+      - main
+      - mongo-ref
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to current repo
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 15
+        uses: actions/setup-java@v1
+        with:
+          java-version: 15
+
+
+
+      - name: Cache gradle dependency
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-caches-
+
+
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Build Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: api-boilerplate-0.0.1-SNAPSHOT.jar
+          path: ./build/libs/api-boilerplate-0.0.1-SNAPSHOT.jar
+          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+
+
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Cache docker image
+        uses: actions/cache@v2
+        id: image-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: jdk15.tar
+          key: ${{ runner.os }}-jdk15
+          restore-keys: |
+            ${{ runner.os }}-jdk15
+
+      - name: Load cached image
+        run: "test -f jdk15.tar && docker image import jdk15.tar || true"
+
+      # https://github.community/t/continue-on-error-allow-failure-ui-indication/16773
+      # first commit should run this
+      - name: Pull docker base image and save
+        run: "test -f jdk15.tar || (docker pull openjdk:15-alpine && docker save openjdk:15-alpine > jdk15.tar)"
+
+
+#      - name: Build Docker image
+#        run: "docker build -t api-boilerplate:v1 ."
+
+#      - name: Push docker image
+#        run: "docker push api-boilerplate:v1"

@@ -1,0 +1,110 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    id 'org.springframework.boot' version '3.0.0'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.7.21'
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.7.21'
+    id "org.jetbrains.kotlin.plugin.allopen" version "1.7.21"
+    id "com.diffplug.spotless" version "6.11.0"
+}
+
+group "com.glancebar"
+version "0.0.1-SNAPSHOT"
+sourceCompatibility = '17'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
+    implementation ("org.springframework.boot:spring-boot-starter-data-redis") {
+        exclude group: "io.lettuce", module: "lettuce-core"
+    }
+    implementation 'redis.clients:jedis:4.3.1'
+
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+    implementation ("org.springframework.boot:spring-boot-starter-web") {
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+    }
+    implementation "org.springframework.boot:spring-boot-starter-log4j2"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation "org.springframework.boot:spring-boot-starter-aop"
+    implementation "com.glancebar.wechat:spring-boot-wechat-starter:0.0.2"
+//    implementation("com.glancebar.wechat:wechat-library:0.0.1")
+    // implementation("org.springframework.kafka:spring-kafka")
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    implementation "io.jsonwebtoken:jjwt-api:0.11.2"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:0.11.2"
+    // Uncomment the next line if you want to use RSASSA-PSS (PS256, PS384, PS512) algorithms:
+    // "org.bouncycastle:bcprov-jdk15on:1.60",
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:0.11.2" // or "io.jsonwebtoken:jjwt-gson:0.11.2" for gson
+//    {
+//        exclude(module = "junit")
+//        exclude(module = "mockito-core")
+//    }
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    testImplementation "com.ninja-squad:springmockk:1.1.3"
+    testImplementation "org.springframework.kafka:spring-kafka-test"
+
+    implementation "org.apache.commons:commons-lang3:3.12.0"
+    implementation "com.google.guava:guava:31.1-jre"
+
+    testImplementation "org.springframework.security:spring-security-test"
+}
+
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+}
+
+spotless {
+    java {
+        // optional: you can specify import groups directly
+        // note: you can use an empty string for all the imports you didn"t specify explicitly, and "\\#` prefix for static imports
+        importOrder("java", "javax", "com.acme", "", "\\#com.acme", "\\#")
+        // optional: instead of specifying import groups directly you can specify a config file
+        // export config file: https://github.com/diffplug/spotless/blob/main/ECLIPSE_SCREENSHOTS.md#creating-spotlessimportorder
+        // importOrderFile("eclipse-import-order.txt") // import order file as exported from eclipse
+
+        removeUnusedImports()
+        googleJavaFormat()
+    }
+
+    kotlin {
+        target "**/*.kt"
+        ktlint("0.43.2").userData(["max_line_length": "150",
+                                   "indent_size"    : "2",
+                                   "disabled_rules" : "no-wildcard-imports"])
+    }
+
+    format "misc", {
+        target "**/*.gradle", "**/*.md", "**/.gitignore"
+    }
+    format "xml", {
+        target "**/*.xml"
+    }
+}
+
+tasks.withType(KotlinCompile) {
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = '17'
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

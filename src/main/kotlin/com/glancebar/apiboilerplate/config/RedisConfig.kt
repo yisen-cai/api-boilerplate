@@ -1,5 +1,6 @@
-package com.glancebar.apiboilerplate.aspect
+package com.glancebar.apiboilerplate.config
 
+import com.glancebar.apiboilerplate.utils.Log
 import jakarta.annotation.PostConstruct
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -33,6 +34,7 @@ class RedisConfig(
 
   var testSha1: String? = null
   private final val scriptPath = "scripts"
+  companion object : Log()
 
   /**
    * Custom redisTemplate, like object serializer
@@ -72,6 +74,7 @@ class RedisConfig(
   @PostConstruct
   fun loadRedisScript() {
     // load test.lua
+    logger.info("hello error hello error~")
     val script = this.initScript("$scriptPath/test.lua")
     testSha1 = redisTemplate.connectionFactory?.connection?.scriptLoad(script.scriptAsString.toByteArray())
       ?: throw RuntimeException()

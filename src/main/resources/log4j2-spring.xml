@@ -53,22 +53,43 @@
         <TimeBasedTriggeringPolicy/>
       </Policies>
     </RollingFile>
+
+    <RollingFile name="MyFileAppender" fileName="./logs/myapp.log"
+                 filePattern="./logs/myapp-%d{yyyy-MM-dd}.log.gz">
+      <PatternLayout>
+        <pattern>%d %p %c{1.} [%t] %m%n</pattern>
+      </PatternLayout>
+      <Policies>
+        <!-- rollover on startup, daily and when the file reaches
+            10 MegaBytes -->
+        <OnStartupTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy
+          size="100 MB"/>
+        <TimeBasedTriggeringPolicy/>
+      </Policies>
+    </RollingFile>
   </Appenders>
 
   <Loggers>
+
     <!-- LOG everything at INFO level -->
     <Root level="info">
       <AppenderRef ref="Console"/>
-      <AppenderRef ref="info"/>
+      <AppenderRef ref="info" level="info"/>
+      <AppenderRef ref="debug" level="debug"/>
+      <AppenderRef ref="error" level="error"/>
     </Root>
 
-    <Logger name="debug" level="debug">
-      <AppenderRef ref="debug"/>
+    <!--  any log events from the "com.glancebar" logger that match the specified filter pattern will be written to the "myapp.log" file.   -->
+    <!--  In order for loggers to inherit the appenders from the Root logger-->
+    <Logger name="com.glancebar" level="info" additivity="false">
+      <AppenderRef ref="MyFileAppender"/>
+      <Filters>
+        <RegexFilter regex=".*[eE]rror.*" onMatch="ACCEPT" onMismatch="DENY"/>
+      </Filters>
     </Logger>
 
-    <Logger name="error" level="error">
-      <AppenderRef ref="error"/>
-    </Logger>
+
   </Loggers>
 
 </Configuration>

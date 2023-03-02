@@ -12,10 +12,10 @@ spring:
       password: mongo
       port: 27017
       database: db_boilerplate_dev
-      host: basement
+      host: dev.glancebar.com
       authentication-database: admin
     redis:
-      host: basement
+      host: dev.glancebar.com
       password: myredis
       port: 6379
       # set longer, or it will throw connect timeout error, then cause application restart

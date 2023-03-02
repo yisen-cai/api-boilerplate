@@ -33,19 +33,14 @@ spring:
       password: secret
       port: 27017
       database: boilerplate
-      host: yisen614.top
+      host: dev.glancebar.com
       authentication-database: admin
+    redis:
+      password: myredis
+      host: dev.glancebar.com
+      timeout: 60000
+      port: 6379
 
-  redis:
-    password: myredis
-    host: yisen614.top
-    port: 6379
-    timeout: 60000
-    jedis:
-      pool:
-        min-idle: 5
-        max-active: 10
-        max-wait: 2000
 
   devtools:
     livereload:
